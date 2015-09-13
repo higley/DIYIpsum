@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+<head>
+	<title>Swifty Ipsum</title>
+	<style>
+		html {
+			
+		}
+		body {background: #42adff; color:#333;margin:0 auto;width:80%;font-size:18px;font-family:"San Francisco", HelveticaNeue, "Helvetica Neue", Helvetica, Calibri, Arial;
+
+}	
+		h1, .description {color:#fff;}
+		h1 {margin-bottom:0;}
+		.description {font-size:14px;font-style:italic;margin-bottom:30px;}
+		button {color:#333; font-size:18px;border:1px solid black;border-radius:5px;padding:10px;
+		/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#b4df5b+0,b4df5b+100;Green+Semi+Flat */
+background: #b4df5b; /* Old browsers */
+background: -moz-linear-gradient(top, #b4df5b 0%, #b4df5b 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b4df5b), color-stop(100%,#b4df5b)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #b4df5b 0%,#b4df5b 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #b4df5b 0%,#b4df5b 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #b4df5b 0%,#b4df5b 100%); /* IE10+ */
+background: linear-gradient(to bottom, #b4df5b 0%,#b4df5b 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b4df5b', endColorstr='#b4df5b',GradientType=0 ); /* IE6-9 */
+}
+		button:hover {cursor: pointer;}
+		.buttons {margin-bottom:20px;}
+	</style>
+	
+</head>
+<body>
+<h1>Swifty Ipsum</h1>
+<p class="description">Symetra-inspired text generator for testing content.</p>
+<div class="buttons">
+	<button id="btnSentence">Add Sentence</button>
+	<button id="btnParagraph">Add Paragraph</button>
+</div>
+<script>
+	var words = [
+	"helping",
+	"people",
+	"reach", 
+	"higher",
+	"experience",
+	"elevate",
+	"security",
+	"confidence",
+	"financial",
+	"assets",
+	"service",
+	"community",
+	"responsible",
+	"pioneer",
+	"Symetra",
+	"retirement",
+	"medical",
+	"life",
+	"term",
+	"group",
+	"benefits",
+	"fixed",
+	"annuities",
+	"deferred",
+	"committed",
+	"insurance",
+	"Sumitomo",
+	"dividend",
+	"quarter",
+	"banks", 
+	"stop loss",
+	"products",
+	"legacy",
+	"performance",
+	"advisor",
+	"estate",
+	"group",
+	"employees",
+	"disability",
+	"broker",
+	"administrators",
+	"participant",
+	"regulatory",
+	"compliance",
+	"legal",
+	"disclosure",
+	"statement",
+	"interest rate",
+	"express",
+	"quote",
+	"concepts",
+	"permanent",
+	"variable",
+	"calculation",
+	"Bellevue",
+	"income",
+	"integrity",
+	"network",
+	"distribution",
+	"partners",
+	"value",
+	"transparency",
+	"agent",
+	"dealer",
+	"advisor",
+	"balance"
+];	
+var extras = ["the", "a", "or", "is", "but", "of", "this", "if", "and", "as"];
+var queue = [];
+function getNumber() { //random integer between min and max values
+	var min = 0;
+	var max = words.length - 1;
+	var num = Math.floor(Math.random() * (max - min + 1)) + min;
+	return num;
+}
+function getExtra() { //random entry from extras array
+	var extraMax = extras.length - 1;
+	var num = Math.floor(Math.random() * (extraMax + 1));
+	return extras[num];
+}
+function getWordNumber() { //gets a unique number from words array so words don't repeat within sentence
+	var num = getNumber(); 
+	while(queue.indexOf(num) > -1) { //check if new number exists in queue; get new number if it does
+		num = getNumber();
+	}
+	queue.push(num); //add new number to the queue
+	if(queue.length > words.length) {
+		queue.shift(); //if queue gets to be length of word list, get rid of the oldest queue value
+	}
+	return num;	
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function buildSentence() {
+	var sentence = "";
+	for(var i = 0; i < Math.floor(Math.random() * (20 - 5 + 1)) + 5; i++) { //max 20 words, min 5
+		var num = getWordNumber();
+		var word = words[num];
+		if(i===0) {
+			word = capitalizeFirstLetter(word); //if first word, capitalize the first letter
+		}
+		if(i % 3 == 0 && i != 0) {
+			sentence += " " + getExtra(); //every three words, and in one of the extras to mix it up
+		}
+		sentence += " " + word;
+	}
+	sentence += "."; //period to end sentence
+	queue = []; //reset queue
+	return sentence;
+}
+
+function buildParagraph() { //build paragraph with 4 sentences
+	var paragraph = "";
+	paragraph += buildSentence();	
+	paragraph += buildSentence();	
+	paragraph += buildSentence();	
+	paragraph += buildSentence();
+	return paragraph;
+}
+function handleSentence() {
+	var txt = document.createTextNode(buildSentence());
+	document.body.appendChild(txt);
+}
+function handleParagraph() {
+	var p = document.createElement("p");
+	var txt = document.createTextNode(buildParagraph());
+	p.appendChild(txt);
+	document.body.appendChild(p);
+}
+
+document.getElementById("btnSentence").addEventListener("click", handleSentence, false);
+document.getElementById("btnParagraph").addEventListener("click", handleParagraph, false);
+</script>
+	
+
+</body>
+</html>
